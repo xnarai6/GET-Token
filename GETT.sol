@@ -383,6 +383,7 @@ contract MintableToken is StandardToken, Ownable {
   {
     totalSupply_ = totalSupply_.add(_amount);
     balances[_to] = balances[_to].add(_amount);
+    mintingFinished = true;
     emit Mint(_to, _amount);
     emit Transfer(address(0), _to, _amount);
     return true;
@@ -392,13 +393,13 @@ contract MintableToken is StandardToken, Ownable {
    * @dev Function to stop minting new tokens.
    * @return True if the operation was successful.
    */
-
+/*
   function finishMinting() public onlyOwner canMint returns (bool) {
     mintingFinished = true;
     emit MintFinished();
     return true;
   }
-  
+  */
 }
 
 // File: openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol
@@ -587,17 +588,18 @@ library SafeERC20 {
 //contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
 //    MintableToken, BurnableToken, PausableToken {
 
-contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
+contract GETT0 is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
     MintableToken, BurnableToken, PausableToken {
 
     function burn(uint value) public onlyOwner {
         super.burn(value);
     }
 
+/*
     function finishMinting() public onlyOwner returns (bool) {
         return false;
     }
-
+*/
     function renounceOwnership() public onlyOwner {
         revert("renouncing ownership is blocked");
     }
