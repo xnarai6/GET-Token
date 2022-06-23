@@ -585,7 +585,7 @@ library SafeERC20 {
 
 
 //contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
-//    MintableToken, BurnableToken, PausableToken, OwnableContract {
+//    MintableToken, BurnableToken, PausableToken {
 
 contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
     MintableToken, BurnableToken, PausableToken {
