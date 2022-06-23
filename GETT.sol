@@ -400,7 +400,7 @@ contract MintableToken is StandardToken, Ownable {
     emit MintFinished();
     return true;
   }
- 
+  
 }
 
 // File: openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol
@@ -544,42 +544,6 @@ contract PausableToken is StandardToken, Pausable {
   }
 }
 
-// File: openzeppelin-solidity/contracts/ownership/Claimable.sol
-
-/**
- * @title Claimable
- * @dev Extension for the Ownable contract, where the ownership needs to be claimed.
- * This allows the new owner to accept the transfer.
- */
-contract Claimable is Ownable {
-  address public pendingOwner;
-
-  /**
-   * @dev Modifier throws if called by any account other than the pendingOwner.
-   */
-  modifier onlyPendingOwner() {
-    require(msg.sender == pendingOwner);
-    _;
-  }
-
-  /**
-   * @dev Allows the current owner to set the pendingOwner address.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) public onlyOwner {
-    pendingOwner = newOwner;
-  }
-
-  /**
-   * @dev Allows the pendingOwner address to finalize the transfer.
-   */
-  function claimOwnership() public onlyPendingOwner {
-    emit OwnershipTransferred(owner, pendingOwner);
-    owner = pendingOwner;
-    pendingOwner = address(0);
-  }
-}
-
 // File: openzeppelin-solidity/contracts/token/ERC20/SafeERC20.sol
 
 /**
@@ -621,36 +585,12 @@ library SafeERC20 {
   }
 }
 
-// File: openzeppelin-solidity/contracts/ownership/CanReclaimToken.sol
 
-/**
- * @title Contracts that should be able to recover tokens
- * @author SylTi
- * @dev This allow a contract to recover any ERC20 token received in a contract by transferring the balance to the contract owner.
- * This will prevent any accidental loss of tokens.
- */
-contract CanReclaimToken is Ownable {
-  using SafeERC20 for ERC20Basic;
-
-  /**
-   * @dev Reclaim all ERC20Basic compatible tokens
-   * @param _token ERC20Basic The address of the token contract
-   */
-  function reclaimToken(ERC20Basic _token) external onlyOwner {
-    uint256 balance = _token.balanceOf(this);
-    _token.safeTransfer(owner, balance);
-  }
-
-}
-
-// File: contracts/utils/OwnableContract.sol
-
-// empty block is used as this contract just inherits others.
-contract OwnableContract is CanReclaimToken, Claimable { } /* solhint-disable-line no-empty-blocks */
-
+//contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
+//    MintableToken, BurnableToken, PausableToken, OwnableContract {
 
 contract GETT is StandardToken, DetailedERC20("Green Earth community Token", "GETT", 18),
-    MintableToken, BurnableToken, PausableToken, OwnableContract {
+    MintableToken, BurnableToken, PausableToken {
 
     function burn(uint value) public onlyOwner {
         super.burn(value);
